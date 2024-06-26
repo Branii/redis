@@ -14,12 +14,23 @@ class App {
    
         Flight::route('/api/v1/fantan/@id', function($gameId) {
             try {
-                $result = Redis::Cache()->get($gameId);
-                $jsonData = $result ? json_decode($result, true) : (new Controller)::fetchGame($gameId);
-                $result ?: Redis::Cache()->set($gameId, json_encode($jsonData[0]));
-                Flight::json([[$jsonData]]);
+                $arrKeys = ['5d','3d','fast4','pk10','hpp8','11x5'];
+                if(!in_array($gameId,$arrKeys)){
+                    Flight::json(['message' => 'Resource not found'], 404);
+                }else{
+                    $result = Redis::Cache()->get($gameId);
+                    $jsonData = $result ? json_decode($result, true) : (new Controller)->fetchGame($gameId);
+                    $result ?: Redis::Cache()->set($gameId, json_encode($jsonData[0]));
+                    Flight::json([[$jsonData]]);
+                }
+                
             } catch (\Throwable $th) {
-                (new Monolog)->error($th->getMessage());
+                $throwable = ['message' =>$th->getMessage(),
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'code' => $th->getCode(),
+                'trace' => $th->getTrace()];
+                (new Monolog)->error(json_encode($throwable));
             }
         });
 

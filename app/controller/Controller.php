@@ -10,7 +10,7 @@ declare(strict_types=1);
                 'pk10'  => (new GameMap)::Pk10_games($gameId),
                 'hpp8'  => (new GameMap)::Happy8_games($gameId),
                 '11x5'  => (new GameMap)::Eleven5_games($gameId)
-            ][$gameId] ?? (new GameMap)::FiveD_games($gameId);
+            ][$gameId] ?? ['Messsage'=>"Page not found"];
         }
     }
 
