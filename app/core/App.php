@@ -23,14 +23,8 @@ class App {
                     $result ?: Redis::Cache()->set($gameId, json_encode($jsonData[0]));
                     Flight::json([[$jsonData]]);
                 }
-                
             } catch (\Throwable $th) {
-                $throwable = ['message' =>$th->getMessage(),
-                'file' => $th->getFile(),
-                'line' => $th->getLine(),
-                'code' => $th->getCode(),
-                'trace' => $th->getTrace()];
-                (new Monolog)->error(json_encode($throwable));
+                (new Monolog)->error($th);
             }
         });
 

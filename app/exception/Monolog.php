@@ -10,6 +10,16 @@ class Monolog{
         return $this->log;
     }
 
+    public function log(\Throwable $th){
+        $throwable = ['message' =>$th->getMessage(),
+                //'file' => $th->getFile(),
+                'line' => $th->getLine()
+                //'code' => $th->getCode(),
+                //'trace' => $th->getTrace()
+                ];
+                $this->log->warning(json_encode($throwable));
+    }
+
     public function warning(string $message) {
         return $this->log->warning($message);
     }
