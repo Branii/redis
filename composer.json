@@ -1,0 +1,8 @@
+{
+    "require": {
+        "moxxie/moxrouter": "^0.2.0",
+        "predis/predis": "^2.2",
+        "flightphp/core": "^3.10",
+        "monolog/monolog": "^3.6"
+    }
+}
